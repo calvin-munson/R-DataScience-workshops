@@ -64,10 +64,10 @@ By calling the tidyverse packages, setting your working directory, and reading i
 library(tidyverse)
 
 # Set wd
-setwd("~/Desktop/FIU_R_Workshop/data")
+setwd("~/Desktop/R-DataScience-workshops")
 
 # Read in data
-US_energy.wide <- read_csv("US_energy.wide.csv")
+US_energy_raw <- read_csv("practice_worksheets/US_energy_production/US_energy_wide.csv")
 
 ```
 

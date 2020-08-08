@@ -53,15 +53,15 @@ library(tidyverse)
 # In that folder, create another folder called "data". Save the cereal.csv file (on the Google Drive I shared with you all) into that folder
 
 # Set working directory with this line of code
-setwd("~/Desktop/FIU_R_Workshop/data")
+setwd("~/Desktop/R-DataScience-workshops")
 
 # This essentially tells R where to look for your data. Once you do this, we can read in data.
 
 # Read in data, store it as a data object (just like the numbers and vectors from last week!)
-data_cereal <- read.csv("cereal.csv")
+data_cereal <- read.csv("workshop2_enterthetidyverse/cereal.csv")
 
 # Alternately, you could write out the full file name:
-data_cereal <- read.csv("~/Desktop/FIU_R_Workshop/data/cereal.csv")
+data_cereal <- read.csv("~/Desktop/R-DataScience-workshops/workshop2_enterthetidyverse/cereal.csv")
 
 
 

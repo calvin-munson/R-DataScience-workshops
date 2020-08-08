@@ -1,12 +1,13 @@
 ##
 ##
-##    Workshop #TBD: Energy production!
+##    Practice problems: Energy production!
 ##
 ##    Objective:  TBD
 ##                
 ##    Authors:    Calvin J. Munson
 ##
-##    Date:       TBD
+##    Note:       This worksheet is best completed after reviewing the 
+##                content from Workshop 6: Reshaping Data
 ##
 ##
 ##
@@ -19,10 +20,10 @@
 library(tidyverse)
 
 # Set wd
-setwd("~/Desktop/FIU_R_Workshop/data")
+setwd("~/Desktop/R-DataScience-workshops")
 
 # Read in data
-US_energy_raw <- read_csv("US_energy_raw.csv")
+US_energy_raw <- read_csv("practice_worksheets/US_energy_production/US_energy_raw.csv")
 
 
 
@@ -86,10 +87,10 @@ US_energy.wide %>%
 library(tidyverse)
 
 # Set wd
-setwd("~/Desktop/FIU_R_Workshop/data")
+setwd("~/Desktop/R-DataScience-workshops")
 
 # Read in data
-US_energy.wide <- read_csv("US_energy.wide.csv")
+US_energy_raw <- read_csv("practice_worksheets/US_energy_production/US_energy_wide.csv")
 
 
 colnames(US_energy.wide)

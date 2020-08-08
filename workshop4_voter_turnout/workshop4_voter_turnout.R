@@ -9,7 +9,7 @@
 # 1. Setup ----------------------------------------------------------------
 
 ## Set working directory
-setwd("~/Desktop/FIU_R_Workshop/data")
+setwd("~/Desktop/R-DataScience-workshops")
 
 ## Call to functionality
 library(tidyverse)
@@ -20,7 +20,7 @@ president_years <- seq(1980, 2012, 4)
 midterm_years <- seq(1982, 2014, 4)
 
 ## Read in data
-turnout_data <- read.csv("voter_turnout.txt") %>% 
+turnout_data <- read.csv("workshop4_voter_turnout/voter_turnout.txt") %>% 
   filter(state != "United States",
          state != "United States (Excl. Louisiana)") %>% 
   mutate(election_type = if_else(year %in% president_years, "Presidential", "Midterm")) %>% 
@@ -30,7 +30,7 @@ turnout_data <- read.csv("voter_turnout.txt") %>%
 
 write.csv(turnout_data, "voter_turnout.csv", row.names = FALSE)
 
-turnout_data <- read.csv("voter_turnout.csv")
+turnout_data <- read.csv("workshop4_voter_turnout/voter_turnout.csv")
 
 
 

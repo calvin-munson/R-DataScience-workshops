@@ -36,7 +36,8 @@ This document shows potential solutions to the practice problems. This document 
 ```{r q1 set wd and read packages}
 
 # Set working directory
-setwd("~/Desktop/FIU_R_Workshop/data")
+# Set wd
+setwd("~/Desktop/R-DataScience-workshops")
 
 ## Call to tidyverse packages
 library(tidyverse)
@@ -56,7 +57,7 @@ After you have read in the file, write code to: a) Look at the header of the dat
 
 ```{r q2 Read in data}
 
-animal_weights <- read.csv("animal_weight.csv")
+animal_weights <- read.csv("~/Desktop/R-DataScience-workshops/practice_worksheets/animal_weights/animal_weight.csv")
 
 # a)
 head(animal_weights)

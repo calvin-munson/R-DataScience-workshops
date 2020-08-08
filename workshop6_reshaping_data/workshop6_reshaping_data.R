@@ -18,10 +18,10 @@
 library(tidyverse)
 
 ## Set working directory
-setwd("~/Desktop/FIU_R_Workshop/data")
+setwd("~/Desktop/R-DataScience-workshops")
 
 ## Read in data
-population <- read_csv("city_populations.csv")
+population <- read_csv("workshop6_reshaping_data/city_populations.csv")
 
 ## Explore the data
  # This is a very simple dataset, with only and handful of rows and columns. 
