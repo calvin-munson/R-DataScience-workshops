@@ -1,0 +1,196 @@
+---
+title: 'Practice worksheet: US energy production'
+author: "Calvin J. Munson"
+date: "8/7/2020"
+output: 
+  html_document: 
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+
+```{r, include=FALSE}
+hooks = knitr::knit_hooks$get()
+hook_foldable = function(type) {
+  force(type)
+  function(x, options) {
+    res = hooks[[type]](x, options)
+    
+    if (isFALSE(options[[paste0("fold.", type)]])) return(res)
+    
+    paste0(
+      "<details><summary>", type, "</summary>\n\n",
+      res,
+      "\n\n</details>"
+    )
+  }
+}
+knitr::knit_hooks$set(
+  output = hook_foldable("output"),
+  plot = hook_foldable("plot")
+)
+```
+
+<center>
+
+![](energy.jpg)
+
+</center>
+
+<br>
+
+#### Introduction
+
+The data for this worksheet is contains information about energy production in the United States from as early as 1949 until now, and is divided up by energy type. The data was retrieved from the U.S. Energy Information Administration (https://www.eia.gov/totalenergy/data/annual/).
+
+I slightly modified the dataset from its original form, but purposefully left it kinda messy - the cleaning of the data is 90% of data science anyways!
+
+Instead of sending two separate worksheets as I did last time - one with solutions and one without - I am experimenting with a new format. You will notice two sets of buttons on this html document called <b>code</b> and <b>output</b>.
+
+***
+
+<br>
+
+#### 1. Set up your workspace
+
+By calling the tidyverse packages, setting your working directory, and reading in the data
+
+```{r 1. set up}
+
+# Load packages
+library(tidyverse)
+
+# Set wd
+setwd("~/Desktop/FIU_R_Workshop/data")
+
+# Read in data
+US_energy.wide <- read_csv("US_energy.wide.csv")
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 2. Explore the data
+
+
+2a) What are the column names?
+```{r 2a. explore}
+colnames(US_energy.wide)
+```
+
+<br>
+
+2b) What unique values are located in the "YYYYMM" column?
+```{r 2b. explore}
+unique(US_energy.wide$YYYYMM)
+```
+
+<br>
+
+2c) Are all the units in the "Unit" column the same?
+```{r 2c. explore}
+unique(US_energy.wide$Unit)
+```
+
+<br>
+
+***
+
+#### 3. Separate the YYYYMM column
+
+Based on the column name, the first four digits of each value are the year, while the last two digits are the month. Using the separate() function, create two new columns from the YYYYMM column: one with the year values, and one with the month values. Store the new dataframe as "US_energy.sep"
+Hint: Remember the two different ways you can separate a column using the "sep" argument. See the separate() help page for more info.
+
+```{r 3. separate}
+# Remember: For the "sep" argument, you can separate either by a character string (e.g. " " or "_") OR by a position (e.g. 2 characters from the right or left)!
+US_energy.sep <- US_energy.wide %>% 
+  separate(YYYYMM, into = c("year", "month"), sep = -2)
+
+# Display the data as output
+US_energy.sep
+
+```
+
+<br>
+
+***
+
+#### 4. Filtering for proper months
+
+4a) Check out the unique values for "month" in this dataframe. What do you think month 13 represents? Would it be useful to us? You can scroll through the entire dataframe by clicking on the data object (US_energy.sep) in the Global Environment panel in the top right.
+
+See the code section for the answer.
+
+```{r 4a. filter}
+# It appears that the row labelled "month 13" represents the total production throughout that corresponding year (aka the sum of months 1-12)
+unique(US_energy.sep$month)
+
+
+```
+
+<br>
+
+4b) Next, based upon what we learned about month 13, filter the dataframe to only contain rows that represent total production for each year (i.e. one row per year, not one row per month). We only want yearly totals; monthly values are too fine scale for us. Store this new dataframe as US_energy.yearly
+
+```{r 4b. filter}
+US_energy.yearly <- US_energy.sep %>% 
+  filter(month == "13")
+
+# Display the data as output
+US_energy.yearly
+```
+
+<br>
+
+4c) The total energy production per year was already calculated for us, but what could have been another way for us to get the yearly sums of energy production for each energy type? What problems with the data may this have created for us, though?
+
+```{r 4c summarise}
+# Alternatively, we could have 1) first filtered the data frame to NOT include month 13, 2) grouped the dataframe by year, and 3) used the summarise function to sum up all the energy type columns within each year.
+
+# Problems:
+  # 1. It appears that from 1949 - 1972, the energy production data was measured only as yearly totals (i.e. only data for month 13). If we filtered out year 13 first, then we would be losing data for these two decades, since there are no month-level data to add together.
+  # 2. The most recent year of measurement, 2020, only has data up until April (month 4). If we summarized the data by year, 2020 would appear to have significantly lower energy production than in previous years, since all the months have not passed yet. This COULD be fixed by filtered out 2020, however.
+  # 3. It is a pain to name every single one of the 13 energy columns in a summarise function, however... You know what would be super helpful? If we could pivot the dataframe to make "energy type" a single column!!! Then we could group by "energy type" and summarise the "value" column.
+
+US_energy.sep %>% 
+  # filter to REMOVE rows that have 13 in the month column
+  filter(month != "13") %>% 
+  group_by(year) %>% 
+  summarise(`Coal Production` = sum(`Coal Production`, na.rm = TRUE),
+            `Natural Gas (Dry) Production` = sum(`Natural Gas (Dry) Production`, na.rm = TRUE),
+            `Crude Oil Production` = sum(`Crude Oil Production`, na.rm = TRUE),
+            `Natural Gas Plant Liquids Production` = sum(`Natural Gas Plant Liquids Production`, na.rm = TRUE),
+            `Total Fossil Fuels Production` = sum(`Total Fossil Fuels Production`, na.rm = TRUE),
+            `Nuclear Electric Power Production` = sum(`Nuclear Electric Power Production`, na.rm = TRUE),
+            `Hydroelectric Power Production` = sum(`Hydroelectric Power Production`, na.rm = TRUE),
+            `Geothermal Energy Production` = sum(`Geothermal Energy Production`, na.rm = TRUE),
+            `Solar Energy Production` = sum(`Solar Energy Production`, na.rm = TRUE),
+            `Wind Energy Production` = sum(`Wind Energy Production`, na.rm = TRUE),
+            `Biomass Energy Production` = sum(`Biomass Energy Production`, na.rm = TRUE),
+            `Total Renewable Energy Production` = sum(`Total Renewable Energy Production`, na.rm = TRUE),
+            `Total Primary Energy Production` = sum(`Total Primary Energy Production`, na.rm = TRUE))
+
+
+```
+
+<br>
+
+***
+
+#### 5. Pivot that dataframe!
+
+Now that we
+
+
+<br>
+
+***
+
+<br>

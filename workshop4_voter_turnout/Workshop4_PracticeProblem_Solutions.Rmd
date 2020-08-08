@@ -1,0 +1,280 @@
+---
+title: "Workshop 4: Practice Problem Solutions"
+author: "Calvin J. Munson"
+date: "May 7th, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = FALSE, message = FALSE, warning = FALSE)
+
+rm(list=ls())
+```
+
+<br>
+
+***
+
+<br>
+
+This document shows potential solutions to the practice problems. This document is built out of a real R script that I made, with text like this added here and there. You can see each chunk of code, which is followed by that chunk's output, allowing you to see the process of accomplishing each task.
+
+<br>
+
+***
+
+<br>
+
+## Questions:
+
+<br>
+
+#### 1. Set your working directory to whatever folder you are storing the data in, and read in the tidyverse packages from the library
+
+<br>
+
+```{r q1 set wd and read packages}
+
+# Set working directory
+setwd("~/Desktop/FIU_R_Workshop/data")
+
+## Call to tidyverse packages
+library(tidyverse)
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 2. Read in the .csv file called "animal_weight.csv" and store it in as data object called animal_weights. 
+After you have read in the file, write code to: a) Look at the header of the data, b) find the number of columns in the data, and c) find the number of rows in the data
+
+<br>
+
+```{r q2 Read in data}
+
+animal_weights <- read.csv("animal_weight.csv")
+
+# a)
+head(animal_weights)
+
+# b)
+ncol(animal_weights)
+
+# c)
+nrow(animal_weights)
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 3. Identify the unique species and unique age classes present in the dataset
+
+<br>
+
+```{r q3 unique spp}
+# Unique species:
+unique(animal_weights$species)
+
+# Unique age classes:
+unique(animal_weights$age_class)
+
+```
+
+<br>
+
+Note: Using the dollar sign to select a column of a dataframe turns that column into a vector of values. You can also use a pipeline to pipe that vector into the function you want to use
+
+```{r q3.2 unique spp}
+animal_weights$species %>% unique()
+
+```
+
+
+<br>
+
+***
+
+<br>
+
+#### 4. Write code to calculate the mean weight of each species in the dataset
+
+Hint: group_by() and summarise() are your friends
+
+<br>
+
+```{r q4 mean by species}
+
+animal_weights %>% 
+  group_by(species) %>% 
+  summarise(mean_weight = mean(weight_kg, na.rm = TRUE))
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 5. Calculate the same average weight, but this time for each species/age class combination in the dataset (for instance, what does the average elephant child weight? Elephant adult? Hippo child? etc)
+
+<br>
+
+```{r q5 mean by species and age}
+
+animal_weights %>% 
+  group_by(species, age_class) %>% 
+  summarise(mean_weight = mean(weight_kg, na.rm = TRUE))
+
+```
+
+
+<br>
+
+***
+
+<br>
+
+#### 6. Next, calculate both mean weight AND mean height in the same data frame for each species/age class combination
+
+<br>
+
+```{r q6 mean hieght and weight by species and age}
+
+animal_weights %>% 
+  group_by(species, age_class) %>% 
+  summarise(mean_weight = mean(weight_kg, na.rm = TRUE),
+            mean_height = mean(height_m, na.rm = TRUE))
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 7. You may have noticed that there is also a column for the sex of the animal, but that the data only exists for the Hippos in our dataset. Create a new dataframe called hippo_stats, which a) only includes data from Hippos, and b) has the mean weight and height for each species, sex, and age combination in the dataset.
+
+<br>
+
+
+```{r q7 rhinos only}
+
+hippo_stats <- animal_weights %>% 
+  # a) Filter the original dataframe to only include Hippos
+  filter(species == "Hippo") %>% 
+  # b) Group by all 3 columns of interest and summarise
+  group_by(species, sex, age_class) %>% 
+  summarise(mean_weight = mean(weight_kg, na.rm = TRUE),
+            mean_height = mean(height_m, na.rm = TRUE))
+
+hippo_stats
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 8. Calculate Body Mass Index (BMI) for each individual animal
+
+In humans, BMI is calculated as:
+
+$$BMI = kg/m^{2}$$
+
+Where BMI is body mass index, kg is mass in kilograms, and m is height in meters.
+
+Taking the original dataframe, create a new column that contains a calculated BMI for each individual animal (this is obviously totally meaningless in terms of actual data on these species!)
+
+Hint: mutate() is your friend! Also, if you are stuck on how to square a value in R, check out our even better friend, Google!
+
+
+```{r q8 BMI}
+
+animal_weights %>% 
+  mutate(BMI = weight_kg/height_m^2)
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 9. Using ggplot, create a set of boxplots showing the distribution of weights for each species
+
+Hint: Think about what value you want on which axis
+
+<br>
+
+```{r q9 boxplot 1}
+
+animal_weights %>% 
+  ggplot(aes(x = species, y = weight_kg)) +
+  geom_boxplot()
+
+```
+
+<br>
+
+***
+
+<br>
+
+#### 10. Create a more detailed boxplot, this time including the fill of the boxplot as the age class of the species
+
+Additionally, change a few of the features of the plot:
+
+a) Add neat x and y axis labels
+b) Add a plot title
+c) Change the y-axis limits to include 0 as a minimum
+
+Hint: Again, use Google if you're stuck on how to change these features. The website Stack Overflow is a great place to go.
+
+<br>
+
+```{r q10 boxplot 2}
+
+animal_weights %>% 
+  ggplot(aes(x = species, y = weight_kg, fill = age_class)) +
+  geom_boxplot() +
+  # a)
+  labs(x = "Species", y = "Weight (kilograms)", fill = "Age class") +
+  # b)
+  ggtitle("Weight distributions for each species and age class") +
+  # c)
+  ylim(0,11000)
+
+```
+
+Note: If you assigned a column to the "fill" aesthetic (same thing goes for other aesthetics, like "color" or "shape"), you can also specify a new label for it as I did in the labs() arguement. That label will show up over the legend.
+
+<br>
+
+***
+
+<br>
+
+I hope this worksheet was helpful! Please feel free to email me with any questions.
+
+-Calvin
+
+<br>
+
+***
+
+<br>
+
+
