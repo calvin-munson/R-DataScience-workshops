@@ -1,7 +1,7 @@
 ---
 title: 'Practice worksheet: US energy production'
 author: "Calvin J. Munson"
-date: "8/7/2020"
+date: "August 15th, 2020"
 output: 
   html_document: 
     code_folding: hide
@@ -42,21 +42,27 @@ knitr::knit_hooks$set(
 
 <br>
 
-#### Introduction
+### Introduction
 
-The data for this worksheet is contains information about energy production in the United States from as early as 1949 until now, and is divided up by energy type. The data was retrieved from the U.S. Energy Information Administration (https://www.eia.gov/totalenergy/data/annual/).
+In the era of climate change, the production of energy through the burning of fossil fuels is on everyone's mind (well, not everyone, unfortunately...). How much of the energy that the U.S. produces is from fossil fuel sources? What about from renewable energy sources? The data for this worksheet contains information about energy production in the United States from as early as 1949 until present, and is divided up by energy source. The data was retrieved from the U.S. Energy Information Administration (https://www.eia.gov/totalenergy/data/annual/).
 
-I slightly modified the dataset from its original form, but purposefully left it kinda messy - the cleaning of the data is 90% of data science anyways!
+I slightly modified the dataset from its original form, but purposefully left it somewhat messy - the cleaning of the data is 90% of data science anyways!
 
-Instead of sending two separate worksheets as I did last time - one with solutions and one without - I am experimenting with a new format. You will notice two sets of buttons on this html document called <b>code</b> and <b>output</b>.
+Instead of sending two separate worksheets as I did last time - one with solutions and one without - I am experimenting with a new format. In each section, you will notice two sets of buttons called <b>code</b> and <b>output</b>. <b>Code</b> is a button in the far right of each section. If you click it, the code I use for each section to produce the <b>output</b> will be revealed. The <b>output</b> is hidden too, though! You can see the <b>output</b> of each section (i.e. a graph or a dataframe) but clicking the drop-down arrow next to the word. 
+
+I suggest trying to run through each section without looking at the code nor the output. Once you feel you have answered the question or completed the task, you can check and see if your output matches the drop-down output. If it does, then you can also check to see if the code matches up. <b>If you are stuck on a section, try looking at the output that is generated instead of going right to the code</b>. Compare the output to the dataframe that you are starting with. What has changed? How can you write code to make those changes? Sometimes seeing the end product may jog your memory! And as always, <i>Google is your friend</i>!!! There are certain components of these tasks, particularly with graphing, that I have not brought up in the workshops before, so you will <i>need</i> to search around.
+
+At the end of this worksheet, I ask you to play around with the data and send me a graph (or multiple!) that you feel conveys interesting new information about this dataset. If you feel comfortable doing so, feel free to email me or the whole group your output at calvin_munson@alumni.brown.edu. And if you have any further questions about the data or the code, please do not hesitate to reach out!!
+
+Have fun!
 
 ***
 
 <br>
 
-#### 1. Set up your workspace
+### 1. Set up your workspace
 
-By calling the tidyverse packages, setting your working directory, and reading in the data
+By calling the tidyverse packages, setting your working directory, and reading in the data. I will call the initial dataframe "US_energy.wide".
 
 ```{r 1. set up}
 
@@ -67,7 +73,9 @@ library(tidyverse)
 setwd("~/Desktop/R-DataScience-workshops")
 
 # Read in data
-US_energy_raw <- read_csv("practice_worksheets/US_energy_production/US_energy_wide.csv")
+US_energy.wide <- read_csv("practice_worksheets/US_energy_production/US_energy.wide.csv")
+
+# I changed the location of my data, so this will not be the same file path for you!
 
 ```
 
@@ -77,24 +85,25 @@ US_energy_raw <- read_csv("practice_worksheets/US_energy_production/US_energy_wi
 
 <br>
 
-#### 2. Explore the data
+### 2. Explore the data
 
+<br>
 
-2a) What are the column names?
+##### 2a) What are the column names of our dataframe?
 ```{r 2a. explore}
 colnames(US_energy.wide)
 ```
 
 <br>
 
-2b) What unique values are located in the "YYYYMM" column?
+##### 2b) What unique values are located in the "YYYYMM" column?
 ```{r 2b. explore}
 unique(US_energy.wide$YYYYMM)
 ```
 
 <br>
 
-2c) Are all the units in the "Unit" column the same?
+##### 2c) Are all the units in the "Unit" column the same?
 ```{r 2c. explore}
 unique(US_energy.wide$Unit)
 ```
@@ -103,9 +112,12 @@ unique(US_energy.wide$Unit)
 
 ***
 
-#### 3. Separate the YYYYMM column
+<br>
 
-Based on the column name, the first four digits of each value are the year, while the last two digits are the month. Using the separate() function, create two new columns from the YYYYMM column: one with the year values, and one with the month values. Store the new dataframe as "US_energy.sep"
+### 3. Separate the YYYYMM column
+
+According to the column name, the first four digits of each value are the year, while the last two digits are the month. Using the separate() function, create two new columns from the YYYYMM column: one with the <b>year</b> values, and one with the <b>month</b> values. Store the new dataframe as "US_energy.sep"
+
 Hint: Remember the two different ways you can separate a column using the "sep" argument. See the separate() help page for more info.
 
 ```{r 3. separate}
@@ -122,12 +134,15 @@ US_energy.sep
 
 ***
 
-#### 4. Filtering for proper months
+<br>
 
-4a) Check out the unique values for "month" in this dataframe. What do you think month 13 represents? Would it be useful to us? You can scroll through the entire dataframe by clicking on the data object (US_energy.sep) in the Global Environment panel in the top right.
+### 4. Filtering for proper months
+
+<br>
+
+##### 4a) Check out the unique values for "month" in this dataframe. What do you think month 13 represents? Would it be useful to us? You can scroll through the entire dataframe by clicking on the data object (US_energy.sep) in the Global Environment panel in the top right.
 
 See the code section for the answer.
-
 ```{r 4a. filter}
 # It appears that the row labelled "month 13" represents the total production throughout that corresponding year (aka the sum of months 1-12)
 unique(US_energy.sep$month)
@@ -137,11 +152,13 @@ unique(US_energy.sep$month)
 
 <br>
 
-4b) Next, based upon what we learned about month 13, filter the dataframe to only contain rows that represent total production for each year (i.e. one row per year, not one row per month). We only want yearly totals; monthly values are too fine scale for us. Store this new dataframe as US_energy.yearly
+##### 4b) Next, based upon what we learned about month 13, filter the dataframe to only contain rows that represent total production for each year (i.e. one row per year, not one row per month). We only want yearly totals; monthly values are too fine scale for us. Store this new dataframe as US_energy.yearly
 
+Also in this step, investigate what kind of column "year" is. Is it a character column or a numeric (double/integer) column? If character, use another pipe to tack on a mutate function where you change the year column to a numeric column
 ```{r 4b. filter}
 US_energy.yearly <- US_energy.sep %>% 
-  filter(month == "13")
+  filter(month == "13") %>% 
+  mutate(year = as.numeric(year))
 
 # Display the data as output
 US_energy.yearly
@@ -149,15 +166,14 @@ US_energy.yearly
 
 <br>
 
-4c) The total energy production per year was already calculated for us, but what could have been another way for us to get the yearly sums of energy production for each energy type? What problems with the data may this have created for us, though?
-
+##### 4c) The total energy production per year was already calculated for us, but what could have been another way for us to get the yearly sums of energy production for each energy type? What problems with the data may this have created for us, though? See the code section for an answer
 ```{r 4c summarise}
 # Alternatively, we could have 1) first filtered the data frame to NOT include month 13, 2) grouped the dataframe by year, and 3) used the summarise function to sum up all the energy type columns within each year.
 
 # Problems:
-  # 1. It appears that from 1949 - 1972, the energy production data was measured only as yearly totals (i.e. only data for month 13). If we filtered out year 13 first, then we would be losing data for these two decades, since there are no month-level data to add together.
+  # 1. It appears that from 1949 - 1972, the energy production data was measured only as yearly totals (i.e. only data for month 13). If we filtered out month 13 first, then we would be losing data for these two decades, since there are no month-level data to add together.
   # 2. The most recent year of measurement, 2020, only has data up until April (month 4). If we summarized the data by year, 2020 would appear to have significantly lower energy production than in previous years, since all the months have not passed yet. This COULD be fixed by filtered out 2020, however.
-  # 3. It is a pain to name every single one of the 13 energy columns in a summarise function, however... You know what would be super helpful? If we could pivot the dataframe to make "energy type" a single column!!! Then we could group by "energy type" and summarise the "value" column.
+  # 3. It is a pain to name every single one of the 13 energy columns in a summarise function, however... You know what would be super helpful? If we could pivot the dataframe to make "energy type" a single column!!! Then we could group by "energy type" and summarise the "production" column.
 
 US_energy.sep %>% 
   # filter to REMOVE rows that have 13 in the month column
@@ -184,9 +200,57 @@ US_energy.sep %>%
 
 ***
 
-#### 5. Pivot that dataframe!
+<br>
 
-Now that we
+### 5. Divide the dataframe into two different types of production
+
+It appears that there are two main types of columns represented here: There are values for specific energy production sources (e.g. Coal Production, Wind Energy) as well as values for the overall energy categories of Total Renewable Energy Production, Total Fossil Fuels Production, and Total Primary Energy Production (which is the sum of the previous two). 
+
+Since these two types of data might be hard to display on the same graph, let's split the US_energy.yearly dataframe into the two types. Create two new dataframes based off of the US_energy.yearly data: one dataframe named "specific_prod" which has the data for the specific production sources such as Coal, Crude Oil, Wind, etc, and a second dataframe named "broad_prod" which has the data for the broad production sources of Total Renewable Energy Production, Total Fossil Fuels Production, and Total Primary Energy Production.
+
+Hint: Since these column names are super long and a pain to copy/paste, know that you can also select columns using their <i>position</i>. The position of a column is really just the column number in the order that they appear in the dataframe (e.g. the first column is column 1, second is column 2, etc). A word of warning when using this method, however: Say you use column positions to create a new dataframe (or remove specific columns). This assumes that those column positions will <i>never change</i>, so if you decide to switch around column orders or add new columns earlier on in the code, then selecting by position may end up selecting the wrong columns if you don't check your work closely.
+
+<br>
+
+##### 5a) Select columns with specific production types
+```{r 5a. new dfs}
+
+## I will show both selection methods: Selection by column name, and selection by column position. Both produce the same output.
+
+## Selecting by each specific column name (remember that if there are spaces within or numbers leading the column name, then you need those funky `` quotations)
+specific_prod <- US_energy.yearly %>% 
+  select(year,
+         Unit,
+         `Coal Production`,
+         `Natural Gas (Dry) Production`,
+         `Crude Oil Production`,
+         `Natural Gas Plant Liquids Production`,
+         `Nuclear Electric Power Production`,
+         `Hydroelectric Power Production`,
+         `Geothermal Energy Production`,
+         `Solar Energy Production`,
+         `Wind Energy Production`,
+         `Biomass Energy Production`)
+
+## Alternately, selecting by column position
+specific_prod <- US_energy.yearly %>% 
+  dplyr::select(1, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14)
+
+specific_prod
+
+```
+
+<br>
+
+##### 5b) Select columns with broad production types
+```{r 5b. new dfs}
+
+broad_prod <- US_energy.yearly %>% 
+  dplyr::select(1, 3, 8, 15, 16)
+
+broad_prod
+
+```
 
 
 <br>
@@ -194,3 +258,262 @@ Now that we
 ***
 
 <br>
+
+### 6. Pivot that dataframe!
+
+Now that we have made good progress cleaning up our dataframes, let's pivot them into Tidy format to prepare for visualizations! We will have to repeat the pivoting for each of our new dataframes (both "specific_prod" and "broad_prod").
+
+Pivot both dataframes so that the energy variables that currently occupy columns become values in a new row named "energy_source". Name the new value column simply "production". Name the new dataframes that you create "specific_prod.long" and "broad_prod.long"
+
+<br>
+
+##### 6a) Pivot specific production dataframe
+```{r 6a pivot}
+
+specific_prod.long <- specific_prod %>% 
+  # Pivot longer by selecting which columns to NOT pivot using a minus sign
+  pivot_longer(cols = c(-year, -Unit),
+               # Add the names of the columns to a new column called "energy_source"
+               names_to = "energy_source", 
+               # Add the values in the old columns to a new column called "production"
+               values_to = "production")
+
+specific_prod.long
+
+```
+
+<br>
+
+##### 6b) Pivot specific production dataframe
+```{r 6b pivot}
+
+broad_prod.long <- broad_prod %>% 
+  pivot_longer(cols = c(-year, -Unit),
+               names_to = "energy_source", 
+               values_to = "production")
+
+broad_prod.long
+
+```
+
+<br>
+
+***
+
+<br>
+
+### 7. Plot broad energy production over time
+
+Let's start our data visualization party by investigating the United States' broad energy production over time. As a reminder, the energy sources in this dataframe are Total Renewable Energy Production, Total Fossil Fuels Production, and Total Primary Energy Production.
+
+<i>Does the United States produce more renewable or fossil fuel energy?</i>
+
+<br>
+
+##### 7a) Plot the production of these broad categories over time using a line graph
+```{r 7a plot broad, fig.width=8, fig.height = 4}
+
+broad_prod.long %>% 
+  ggplot(aes(x = year, y = production, color = energy_source)) +
+  geom_line()
+
+```
+
+<br>
+
+##### 7b) Challenge: recreate the graph you see below. 
+
+Compare the graph to how the graph in 7a looks and try replicating it using your own code (you may need to Google some things! Google is your friend!). When you think you have got it, <i>then</i> click the "Code" button to see the annotated code. (Hint: Remember the built-in themes!)
+```{r 7b plot broad challenge, fold.output=FALSE, fold.plot=FALSE, fig.width = 6.5, fig.height = 4.5}
+
+## For reference, I exported this graph with width = 6.5 and height = 4.5. The size of your plot changes how certain aspects look! For instance, a font of 12 will look HUGE if your plot is only 2x3 inches, whereas it will look tiny if your plot is 10x14 inches
+
+broad_prod.long %>% 
+  ggplot(aes(x = year, y = production, color = energy_source)) +
+  # Make the line a little bit thicker (default is 0.5)
+  geom_line(size = 0.75) +
+  # Add x and y labels, as well as a label for the legend (for the color)
+  labs(x = "Year",
+       y = "Energy Production (Quadrillion Btu)",
+       color = "Energy Source") +
+  # Add a title!
+  ggtitle("Energy production by broad source in the U.S. from 1949 to 2019") +
+  # Start by changing to minimal theme
+  theme_minimal() +
+  # Add additional theme elements
+  # Change the position of the legend using legend.position. The default is for the legend to be outside and to the right of the plot, but by specifying a vector in c(x, y) format, you can tell it where to put the legend ((0,0) is the bottom left corner, while (1,1) is the top right)
+  theme(legend.position = c(0.25, 0.80), 
+        # Change the size of the axis titles
+        axis.title.x =  element_text(size = 12,
+                                     # Also add 0.5 cm of space on top of the x title
+                                     margin = margin(t = 0.5, unit = "cm")),
+        axis.title.y =  element_text(size = 12,
+                                     # This one adds 0.5 cm of space to the RIGHT of the y title
+                                     margin = margin(r = 0.5, unit = "cm")),
+        axis.text = element_text(size = 11),
+        # Add 0.5 cm of space surrounding all edges of the plot (looks less cramped)
+        plot.margin = margin(t = 0.5, b = 0.5, r = 0.5, l = 0.5, unit = "cm"),
+        # Remove minor panel lines (panel.grid.major are the lines that intersect with the axis
+         # numbers, which panel.grid.minor are the ones at the halfway point)
+        panel.grid.minor = element_blank())
+```
+
+<br>
+
+***
+
+<br>
+
+### 8. Plot the production of specific energy sources over type
+
+Now that we have a sense of how much renewable and fossil fuel energy the U.S. produces, let's investigate the more specific components of energy production using the "specific_prod.long" dataframe.
+
+##### 8a) Plot the production of specific energy sources as in 7a, but this time, change the color palette of the lines! Hint: Make sure you use a color palette that has as many colors as there are energy sources...
+
+<i>Which energy sources contribute the most to overall US energy production? What about the least?</i>
+```{r 8a plot, fig.width = 8, fig.height = 4.5}
+specific_prod.long %>% 
+  ggplot(aes(x = year, y = production, color = energy_source)) +
+  geom_line() +
+  # Add a new color palette
+  scale_color_brewer(palette = "Paired")
+```
+
+<br>
+
+##### 8b) In the previous graph, it is a bit hard to decipher individual trends given the large number of energy sources Use a facetting function (facet_wrap or facet_grid) to separate out the graph into separate panels for each energy source. Play around to see which function works best for this purpose.
+```{r 8b plot, fig.width = 10.5, fig.height = 5.5}
+# As you will notice, reading the labels of your facetting is hard when your groups have very long names...
+
+# fig.width = 10.5, fig.height = 5.5
+
+specific_prod.long %>% 
+  ggplot(aes(x = year, y = production, color = energy_source)) +
+  geom_line() +
+  scale_color_brewer(palette = "Paired") +
+  # The facet_wrap() function creates a grid of panels that wrap along a certain number of rows based on the number of energy_sources
+  facet_wrap(~ energy_source)
+```
+
+<br>
+
+##### 8c) The huge relative production of some energy sources makes the default y-axis maximum of every panel very large, which makes it hard to see the trends in some of the lower-producing energy sources. Add an argument to the facetting function which makes the y-axis scale "flexible" for each panel. 
+
+<i>How might using "flexible" scales like this be misleading to viewers? How might it be helpful?</i>
+```{r 8c plot, fig.width = 11, fig.height = 5.5}
+# fig.width = 11, fig.height = 5.5
+
+# Using free axes is a tricky business. On the one hand, as in here, it helps viewers to see trends in sources like solar energy that would otherwise be masked by other large sources like coal. But on the other hand, if the viewer isn't paying much attention to the y-axis values, it falsely makes it appear like the absolute production values of all of these sources are comparable, since the lines all reach the top of the plot in each panel.
+
+specific_prod.long %>% 
+  ggplot(aes(x = year, y = production, color = energy_source)) +
+  geom_line() +
+  scale_color_brewer(palette = "Paired") +
+  facet_wrap(~ energy_source,
+             # Adding scales = "free_y" means the y-axis will be "free" to adjust based on each separate panel. You can also add "free_x", or simply "free", which will make BOTH axes free.
+             scales = "free_y")
+```
+
+<br>
+
+##### 8d) That makes it easier to decipher individual trends, but the y-axis is still confined to where there is only data. Find a way to make sure that the lower bound of each y-axis includes 0 while still remaining flexible for the upper bound.
+
+<i>Which energy sources are increasing the fastest? Which are slowing down? Which energy sources seem the most unreliable from year-to-year?</i>
+```{r 8d plot, fig.width = 11, fig.height = 5.5}
+# Using a scaling function, such as scale_y_continous or scale_x_continuous, allows you to modify how each axis looks. For instance, you can change how many number breaks you have using the "breaks" argument. Here, we will change the limits for each axis by providing a vector that has c(lowerlimit, upperlimit) to the "limits" argument. If you make one of these limits "NA", then the axis will simply revert to the default limit. For facetted panels, that will revert to close to each panel's max value.
+
+#fig.width = 11, fig.height = 5.5
+
+specific_prod.long %>% 
+  ggplot(aes(x = year, y = production, color = energy_source)) +
+  geom_line() +
+  scale_color_brewer(palette = "Paired") +
+  # Add axis limits
+  scale_y_continuous(limits = c(0, NA)) +
+  facet_wrap(~ energy_source,
+             scales = "free_y")
+```
+
+<br>
+
+##### 8e) Challenge: Recreate the graph you see below. 
+
+This uses a BRAND NEW GEOM that we haven't encountered before!!! Search around the internet or the R help sheets to figure out what it is! 
+
+<i>What does this geom display? What do you notice about the very uppermost limits of the geom?</i>
+```{r 8e plot, fig.width = 9, fig.height = 4.5, fold.output=FALSE, fold.plot=FALSE}
+#
+# This geom stacks all of your "fill" groups on top of each other, making the top of all the areas equal the TOTAL of all the areas summed together. For us, that means Total Production! You can even double check by looking at your graphs from Q.7
+#
+# fig.width = 9, fig.height = 4.5
+#
+specific_prod.long %>% 
+  ggplot(aes(x = year, y = production, fill = energy_source)) +
+  # Use geom_area! This requires a "fill" aesthetic rather than a "color" aesthetic like geom_line()
+  geom_area() +
+  # Add color palette
+  scale_fill_brewer(palette = "Paired") +
+  # Change the frequency of x-axis breaks to every 10 years instead of every 20
+  scale_x_continuous(breaks = c(1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020)) +
+  # Add x and y labels, as well as a label for the legend (for the color)
+  labs(x = "Year",
+       y = "Energy Production (Quadrillion Btu)",
+       # Note that since the aesthetic for energy_source changed to fill, your label has to change to fill as well!
+       fill = "Energy Source") +
+  # Add a title!
+  ggtitle("Energy production by source in the U.S. from 1949 to 2019") +
+  theme_minimal() +
+  theme(# Change the size of the axis titles
+        axis.title.x =  element_text(size = 12,
+                                     # Also add 0.5 cm of space on top of the x title
+                                     margin = margin(t = 0.5, unit = "cm")),
+        axis.title.y =  element_text(size = 12,
+                                     # This one adds 0.5 cm of space to the RIGHT of the y title
+                                     margin = margin(r = 0.5, unit = "cm")),
+        axis.text = element_text(size = 11),
+        # Add 0.5 cm of space surrounding all edges of the plot (looks less cramped)
+        plot.margin = margin(t = 0.5, b = 0.5, r = 0.5, l = 0.5, unit = "cm"),
+        # Remove minor panel lines (panel.grid.major are the lines that intersect with the axis
+        # numbers, which panel.grid.minor are the ones at the halfway point)
+        panel.grid.minor = element_blank())
+
+```
+
+<br>
+
+##### 9. Create your own new visualizations!
+
+Now that we've gone through some of the basics, I want you to explore the data more. Find something new and interesting in the data, make some graphs, and email them to me if you want; I'd love to see what you come up with!
+
+In the code section below there is the start of one potential path, but you certainly don't have to go that route. Are you interested in particular years? Maybe particular energy sources? What questions do you have about the data that you have the capacity to answer?
+
+```{r 9}
+# The potential route I have started here is to also look at how the PERCENT energy use changes from each year. Up until now, we have only looked at raw numbers of energy production per source (in Quadrillion Btu). But for each year, what percent of that year's total energy production is attributed to each source? 
+
+# To understand this, I started with the "specific_prod.long" dataframe and used mutate() to calculate the total energy production per year. Then I calculated the percent of that total that each energy source represents.
+
+# If you would like to see this more step-by-step, you can use two separate mutate() functions: one that calculates tot.production and the other calculating perc.production. An alternate and faster way is to just put the two equations in the same mutate() function while separated by a comma.
+
+# Good luck exploring!!!
+
+specific_prod.long %>% 
+  # Start by grouping by year. This way, you can calculate the total production for each year instead of for the whole dataframe.
+  group_by(year) %>% 
+  # Calculate tot.production using sum(). Don't forget to remove any NA values by adding the na.rm = TRUE!
+  mutate(tot.production = sum(production, na.rm = TRUE),
+         # Then, for each row, take the production of each energy_source and divide it by the newly calculated tot.production. Multiply by 100 to translate it into a percent.
+         perc.production = production/tot.production*100)
+
+```
+
+<br>
+
+As always, feel free to reach out to me if you are stuck on anything or have any questions!
+
+<br>
+
+***
+
+<br>
+
+
