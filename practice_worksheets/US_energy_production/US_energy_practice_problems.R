@@ -304,6 +304,9 @@ specific_prod.perc <- specific_prod.long %>%
   mutate(tot.production = sum(production, na.rm = TRUE),
          perc.production = production/tot.production*100)
 
+specific_prod.perc %>% 
+  ggplot(aes(x = year, y = perc.production, fill = energy_source)) +
+  geom_boxplot()
 
 ## Graph percent use (line)
 specific_prod.perc %>% 
