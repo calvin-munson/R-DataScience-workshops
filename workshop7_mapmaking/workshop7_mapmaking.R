@@ -277,8 +277,8 @@ ggplot() +
   # labels tells ggplot how to label these breaks (for us, include the comma)
   # Lastly, range tells ggplot what the range of point sizes should be for the 
     # min. and max. size values. The default is 1 to 6
-  scale_size_continuous(breaks = c(10, 10000, 100000),
-                        labels = c("10", "10,000", "100,000"),
+  scale_size_continuous(breaks = c(100, 10000, 100000),
+                        labels = c("100", "10,000", "100,000"),
                         range = c(.1, 20)) +
   coord_map(projection = "lambert", parameters = c("25", "49"))
 
@@ -302,8 +302,8 @@ ggplot() +
              fill = "red",
              shape = 21, 
              alpha = .3) +
-  scale_size_continuous(breaks = c(10, 10000, 100000),
-                        labels = c("10", "10,000", "100,000"),
+  scale_size_continuous(breaks = c(100, 10000, 100000),
+                        labels = c("100", "10,000", "100,000"),
                         range = c(.1, 20)) +
   coord_map(projection = "lambert", parameters = c("25", "49")) +
   theme_void() +
@@ -337,8 +337,8 @@ ggplot() +
             aes(x = long, y = lat, label = state),
             color = "gray35",
             size = 2) +
-  scale_size_continuous(breaks = c(10, 10000, 100000),
-                        labels = c("10", "10,000", "100,000"),
+  scale_size_continuous(breaks = c(100, 10000, 100000),
+                        labels = c("100", "10,000", "100,000"),
                         range = c(.1, 20)) +
   coord_map(projection = "lambert", parameters = c("25", "49")) +
   theme_void() +
@@ -369,8 +369,8 @@ ggplot() +
                   color = "gray35",
                   bg.color = "white",
                   size = 2) +
-  scale_size_continuous(breaks = c(10, 10000, 100000),
-                        labels = c("10", "10,000", "100,000"),
+  scale_size_continuous(breaks = c(100, 10000, 100000),
+                        labels = c("100", "10,000", "100,000"),
                         range = c(.1, 20)) +
   coord_map(projection = "lambert", parameters = c("25", "49")) +
   theme_void() +
@@ -405,8 +405,8 @@ ggplot() +
                   color = "gray35",
                   bg.color = "white",
                   size = 2) +
-  scale_size_continuous(breaks = c(10, 10000, 100000),
-                        labels = c("10", "10,000", "100,000"),
+  scale_size_continuous(breaks = c(100, 10000, 100000),
+                        labels = c("100", "10,000", "100,000"),
                         range = c(.1, 20)) +
   coord_map(projection = "lambert", parameters = c("25", "49")) +
   ggtitle("Cumulative COVID-19 cases in the United States per county",
