@@ -1,8 +1,10 @@
 ---
-title: "Workshop 4: Practice Problem Solutions"
+title: "Practice Worksheet: Animal Weights"
 author: "Calvin J. Munson"
 date: "May 7th, 2020"
-output: html_document
+output: 
+  html_document: 
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -11,13 +13,53 @@ knitr::opts_chunk$set(echo = TRUE, error = FALSE, message = FALSE, warning = FAL
 rm(list=ls())
 ```
 
+
+
+```{r, include=FALSE}
+hooks = knitr::knit_hooks$get()
+hook_foldable = function(type) {
+  force(type)
+  function(x, options) {
+    res = hooks[[type]](x, options)
+    
+    if (isFALSE(options[[paste0("fold.", type)]])) return(res)
+    
+    paste0(
+      "<details><summary>", type, "</summary>\n\n",
+      res,
+      "\n\n</details>"
+    )
+  }
+}
+knitr::knit_hooks$set(
+  output = hook_foldable("output"),
+  plot = hook_foldable("plot")
+)
+```
+
+
+<center>
+
+![](elephants.jpg){width=50%}
+</center>
+
 <br>
 
-***
+<br>
+
+Welcome to this practice worksheet! We will be investigating some trends in the body size of different large mammals. The data for this worksheet is titled "animal_weights.csv". This document was created in RMarkdown, which is a way to neatly display both text and code together. Great for practice worksheets! 
 
 <br>
 
-This document shows potential solutions to the practice problems. This document is built out of a real R script that I made, with text like this added here and there. You can see each chunk of code, which is followed by that chunk's output, allowing you to see the process of accomplishing each task.
+How to navigate the document:
+
+In each section, you will notice two sets of buttons called <b>code</b> and <b>output</b>. <b>Code</b> is a button in the far right of each section. If you click it, the code I use for each section to produce the <b>output</b> will be revealed. The <b>output</b> is hidden too, though! You can see the <b>output</b> of each section (i.e. a graph or a dataframe) but clicking the drop-down arrow next to the word. 
+
+I suggest trying to run through each section without looking at the code nor the output. Once you feel you have answered the question or completed the task, you can check and see if your output matches the drop-down output. If it does, then you can also check to see if the code matches up. <b>If you are stuck on a section, try looking at the output that is generated instead of going right to the code</b>. Compare the output to the dataframe that you are starting with. What has changed? How can you write code to make those changes? Sometimes seeing the end product may jog your memory! And as always, <i>Google is your friend</i>!!! There are certain components of these tasks, particularly with graphing, that I have not brought up in the workshops before, so you will <i>need</i> to search around.
+
+If you have any further questions about the data or the code, please do not hesitate to reach out to me at cmunson@ucsc.edu!
+
+Have fun!
 
 <br>
 
@@ -29,7 +71,7 @@ This document shows potential solutions to the practice problems. This document 
 
 <br>
 
-#### 1. Set your working directory to whatever folder you are storing the data in, and read in the tidyverse packages from the library
+#### 1. Set your working directory and load the tidyverse packages from the library
 
 <br>
 
@@ -57,7 +99,10 @@ After you have read in the file, write code to: a) Look at the header of the dat
 
 ```{r q2 Read in data}
 
-animal_weights <- read.csv("~/Desktop/R-DataScience-workshops/practice_worksheets/animal_weights/animal_weight.csv")
+animal_weights <- read_csv("~/Desktop/R-DataScience-workshops/practice_worksheets/animal_weights/animal_weight.csv")
+
+## You can also read it in directly from by github repository (requires internet connection)
+animal_weights <- read_csv(url("https://raw.githubusercontent.com/calvin-munson/R-DataScience-workshops/master/practice_worksheets/animal_weights/animal_weight.csv"))
 
 # a)
 head(animal_weights)
@@ -80,10 +125,16 @@ nrow(animal_weights)
 
 <br>
 
+Unique species:
+
 ```{r q3 unique spp}
 # Unique species:
 unique(animal_weights$species)
+```
 
+Unique age classes:
+
+```{r q3 unique ages}
 # Unique age classes:
 unique(animal_weights$age_class)
 

@@ -52,7 +52,7 @@ Instead of sending two separate worksheets as I did last time - one with solutio
 
 I suggest trying to run through each section without looking at the code nor the output. Once you feel you have answered the question or completed the task, you can check and see if your output matches the drop-down output. If it does, then you can also check to see if the code matches up. <b>If you are stuck on a section, try looking at the output that is generated instead of going right to the code</b>. Compare the output to the dataframe that you are starting with. What has changed? How can you write code to make those changes? Sometimes seeing the end product may jog your memory! And as always, <i>Google is your friend</i>!!! There are certain components of these tasks, particularly with graphing, that I have not brought up in the workshops before, so you will <i>need</i> to search around.
 
-At the end of this worksheet, I ask you to play around with the data and send me a graph (or multiple!) that you feel conveys interesting new information about this dataset. If you feel comfortable doing so, feel free to email me or the whole group your output at calvin_munson@alumni.brown.edu. And if you have any further questions about the data or the code, please do not hesitate to reach out!!
+If you have any further questions about the data or the code, please do not hesitate to reach out!!
 
 Have fun!
 

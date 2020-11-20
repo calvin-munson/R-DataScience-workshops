@@ -177,7 +177,8 @@ cereal_sugar <- data_cereal %>%
 
 # 5. Introducing filter() -------------------------------------------------
 
-## We can use the filter function in two different ways: To filter numbers or to filter characters. For instance, the manufacturer column is filled with characters, while the nutritional columns are numeric.
+## We can use the filter function in two different ways: To filter rows based on number values or to filter characters. 
+# For instance, the manufacturer column is filled with characters, while the nutritional columns are numeric.
 
 ## Let's use the dataframe we created with name, manufacturer, and sugars
 # Which cereals have greater than 12 grams of sugar?
@@ -210,7 +211,7 @@ cereal.2 <- data_cereal %>%
 cereal.3 <- cereal.2 %>% 
   filter(sugars > 12)
 
-## But this clutters up our working environment, added uneccessarily many data frames. So instead, let's try it with piping:
+## But this clutters up our working environment, adding unnecessarily many data frames. So instead, let's try it with piping:
 
 data_cereal %>% 
   select(name, sugars, protein) %>% 
