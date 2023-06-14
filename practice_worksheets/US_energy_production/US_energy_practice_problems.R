@@ -161,7 +161,6 @@ US_energy.yearly
 
 
 ## 5. Separate dataframe into two
-
 specific_prod <- US_energy.yearly %>% 
   dplyr::select(1, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14)
 
@@ -169,6 +168,9 @@ specific_prod <- US_energy.yearly %>%
 broad_prod <- US_energy.yearly %>% 
   dplyr::select(1, 3, 8, 15, 16)
 
+# Export for additional uses
+write_csv(specific_prod, "practice_worksheets/US_energy_production/US_EnergyProduction_specific.csv")
+write_csv(broad_prod, "practice_worksheets/US_energy_production/US_EnergyProduction_broad.csv")
 
 ## 6. Pivot
 

@@ -140,7 +140,7 @@ mpg %>%
 # 5. Adding extra geoms ---------------------------------------------------
 
 ## When we assign columns to the aes() arguement within ggplot(), all geoms adopt those aesthetics by default
-## Notice that tere are trendlines for each class, as specified by color!
+## Notice that there are trendlines for each class, as specified by color!
 mpg %>% 
   ggplot(aes(x = displ, y = hwy, color = class)) +
   geom_point() +
@@ -168,6 +168,19 @@ mpg %>%
 ## With this code, both geom_point and geom_smooth are still adopting the x = displ and y = hwy aesthetics,
 ## since those were specified in ggplot(), but ONLY geom_point() adopts the color = class aesthetic
 
+
+## What do we do if we want to create a trendline, but ONLY for one "class" of car?
+## The function subset() will help us out!
+## With subset, we tell geom_smooth() to only use data for a particular condition - a particular class of car. We do this by subsetting the data that goes into the geom_smooth function
+# By default, geom_smooth() (and geom_point) inherits both 1) the data that we fed into ggplot(), and 2) the aesthetics that we chose within the ggplot() function.
+# By changing the data argument of geom_smooth(), we make it so that the only data geom_smooth sees is what we subsetted - only rows from mpg that have "compact" in the "class" column
+mpg %>% 
+  ggplot(aes(x = displ, y = hwy, color = class)) +
+  geom_point() +
+  geom_smooth(data = subset(mpg, class == "compact"),
+              method = "lm",
+              alpha = 0.25) +
+  theme_bw()
 
 
 # 6. Theme() --------------------------------------------------------------
