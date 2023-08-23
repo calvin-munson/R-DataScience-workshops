@@ -1,0 +1,41 @@
+date_planted,treatment,apple_radius_in_per_day,apple_variety
+08_22_2023,Control,0.012,Granny Smith
+08_22_2023,Control,0.033,Granny Smith
+08_22_2023,Control,0.061,Granny Smith
+08_22_2023,Control,-0.016,Granny Smith
+08_22_2023,Control,0.032,Granny Smith
+08_22_2023,Control,0.006,Granny Smith
+08_22_2023,Control,0.007,Granny Smith
+08_22_2023,Control,-0.016,Granny Smith
+08_22_2023,Control,0.015,Granny Smith
+08_22_2023,Control,0.027,Granny Smith
+08_22_2023,Water,0.011,Granny Smith
+08_22_2023,Water,0.079,Granny Smith
+08_22_2023,Water,0.025,Granny Smith
+08_22_2023,Water,-0.006,Granny Smith
+08_22_2023,Water,0.038,Granny Smith
+08_22_2023,Water,0.087,Granny Smith
+08_22_2023,Water,0.072,Granny Smith
+08_22_2023,Water,0.066,Granny Smith
+08_22_2023,Water,0.056,Granny Smith
+08_22_2023,Water,0.049,Granny Smith
+08_22_2023,Fertilizer,0.071,Granny Smith
+08_22_2023,Fertilizer,0.05,Granny Smith
+08_22_2023,Fertilizer,0.036,Granny Smith
+08_22_2023,Fertilizer,0.056,Granny Smith
+08_22_2023,Fertilizer,0.044,Granny Smith
+08_22_2023,Fertilizer,0.06,Granny Smith
+08_22_2023,Fertilizer,0.095,Granny Smith
+08_22_2023,Fertilizer,0.062,Granny Smith
+08_22_2023,Fertilizer,0.049,Granny Smith
+08_22_2023,Fertilizer,0.059,Granny Smith
+08_22_2023,Water + Fertilizer,0.166,Granny Smith
+08_22_2023,Water + Fertilizer,0.216,Granny Smith
+08_22_2023,Water + Fertilizer,0.17,Granny Smith
+08_22_2023,Water + Fertilizer,0.197,Granny Smith
+08_22_2023,Water + Fertilizer,0.212,Granny Smith
+08_22_2023,Water + Fertilizer,0.224,Granny Smith
+08_22_2023,Water + Fertilizer,0.238,Granny Smith
+08_22_2023,Water + Fertilizer,0.165,Granny Smith
+08_22_2023,Water + Fertilizer,0.218,Granny Smith
+08_22_2023,Water + Fertilizer,0.189,Granny Smith
