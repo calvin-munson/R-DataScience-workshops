@@ -18,12 +18,14 @@
 
 # * Q1: Set your working directory to the folder where the data and this R script are --------
 
-
 # * Q2: Load in the tidyverse packages ------------------------------------
 
+library(tidyverse)
 
 # * Q3: Read the "apple growth" csv file into R -----------------------------
 
+
+apples <- read_csv("~/Desktop/R-DataScience-workshops/practice_worksheets/intro R practice/apple_growth.csv")
 
 
 
@@ -34,11 +36,17 @@
 # * Q4: What are the column names for this data frame? ----------------------
 # Write code to return a vector of the column names (rather than visually inspecting)
 
+colnames(apples)
 
 # * Q5: What are the different unique values for the date, treatment, and apple variety columns? --------
 # Write code to figure this out rather than just visually inspecting the data. 
 # Hint: Putting a dollar sign ($) immediately after a dataframe name will allow you to turn columns into vectors
 
+unique(apples$apple_variety)
+
+unique(apples$date_planted)
+
+unique(apples$treatment)
 
 
 # * Q6: What are the smallest and largest values of apple growth in this dataset? ---------
@@ -58,6 +66,9 @@
 
 # * Q8: Create a new column that converts the apple growth to centimeters per day instead of inches --------
 
+apples %>% 
+  select(treatment, apple_radius_in_per_day) %>% 
+  mutate(apple_radius_cm_per_day = apple_radius_in_per_day*2.54)
 
 
 
