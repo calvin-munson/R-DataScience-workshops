@@ -153,6 +153,8 @@ length(names)
 # unique() tells us how many unique values are present - in this case, we have 4 total variables, but only 3 unique ones!
 unique(names)
 
+length(unique(names))
+
 
 # We can also do math with vectors!
 grades <- c(94, 92, 99, 89)
@@ -165,6 +167,8 @@ mean(grades)
 max(grades)
 min(grades)
 sum(grades)
+
+sum(grades)/length(grades)
 
 
 # Things can be done multiple ways in R
