@@ -20,7 +20,7 @@ rm(list = ls())
 ## To set up, let's load our packages like we did last time
 library(dplyr)
 library(ggplot2)
-install.packages("palmerpenguins")
+# install.packages("palmerpenguins")
 library(palmerpenguins)
 
 
